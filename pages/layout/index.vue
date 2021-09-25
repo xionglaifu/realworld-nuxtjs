@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-24 10:16:42
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-24 22:07:36
+ * @LastEditTime: 2021-09-25 22:07:02
  * @company: formssi
 -->
 <template>
@@ -24,11 +24,15 @@
           <template v-if="user">
             <li class="nav-item">
               <!-- 创建文章 -->
-              <nuxt-link class="nav-link" to="/editor"> <i class="ion-compose"></i>&nbsp;New Post </nuxt-link>
+              <nuxt-link class="nav-link" to="/editor">
+                <i class="ion-compose"></i>&nbsp;发布文章
+              </nuxt-link>
             </li>
             <li class="nav-item">
               <!-- 跳转到设置 -->
-              <nuxt-link class="nav-link" to="/settings"> <i class="ion-gear-a"></i>&nbsp;Settings </nuxt-link>
+              <nuxt-link class="nav-link" to="/settings">
+                <i class="ion-gear-a"></i>&nbsp;设置
+              </nuxt-link>
             </li>
             <li class="nav-item">
               <!-- 个人中心 -->
@@ -43,13 +47,13 @@
             <li class="nav-item">
               <!-- 登录 -->
               <nuxt-link class="nav-link" to="/login">
-                Sign in
+                登录
               </nuxt-link>
             </li>
             <li class="nav-item">
               <!-- 注册 -->
               <nuxt-link class="nav-link" to="/register">
-                Sign up
+                注册
               </nuxt-link>
             </li>
           </template>
@@ -66,8 +70,9 @@
       <div class="container">
         <a href="/" class="logo-font">conduit</a>
         <span class="attribution">
-          An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed
-          under MIT.
+          An interactive learning project from
+          <a href="https://thinkster.io">Thinkster</a>. Code &amp; design
+          licensed under MIT.
         </span>
       </div>
     </footer>
@@ -75,17 +80,17 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-  name: 'LayoutIndex',
+  name: "LayoutIndex",
   components: {},
   data() {
-    return {}
+    return {};
   },
   computed: {
-    ...mapState(['user']),
+    ...mapState(["user"])
   },
-  methods: {},
-}
+  methods: {}
+};
 </script>
 <style scoped></style>

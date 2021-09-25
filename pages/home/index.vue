@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-24 10:42:16
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 21:10:51
+ * @LastEditTime: 2021-09-25 22:00:38
  * @company: formssi
 -->
 <template>
@@ -21,7 +21,12 @@
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
               <li v-if="user" class="nav-item">
-                <div @click="changeTab('your_feed')" class="nav-link" :class="{ active: tab === 'your_feed' }" exact>
+                <div
+                  @click="changeTab('your_feed')"
+                  class="nav-link"
+                  :class="{ active: tab === 'your_feed' }"
+                  exact
+                >
                   关注文章
                 </div>
               </li>
@@ -36,14 +41,23 @@
                 </div>
               </li>
               <li v-if="tag" class="nav-item">
-                <div @click="changeTab(tag)" class="nav-link" :class="{ active: tab === 'tag' }" exact>
+                <div
+                  @click="changeTab(tag)"
+                  class="nav-link"
+                  :class="{ active: tab === 'tag' }"
+                  exact
+                >
                   {{ tag }}
                 </div>
               </li>
             </ul>
           </div>
 
-          <div class="article-preview" v-for="item in articles" :key="item.slug">
+          <div
+            class="article-preview"
+            v-for="item in articles"
+            :key="item.slug"
+          >
             <div class="article-meta">
               <template @click="toProfile(item.author.username)">
                 <img :src="item.author.image" />
@@ -57,7 +71,7 @@
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{
-                  active: item.favorited,
+                  active: item.favorited
                 }"
                 @click="onFavorite(item)"
                 :disabled="item.favoriteDisabled"
@@ -70,8 +84,8 @@
               :to="{
                 name: 'article',
                 params: {
-                  slug: item.slug,
-                },
+                  slug: item.slug
+                }
               }"
             >
               <h1>{{ item.title }}</h1>
@@ -88,7 +102,7 @@
                 v-for="item in totalPage"
                 :key="item"
                 :class="{
-                  active: item === page,
+                  active: item === page
                 }"
               >
                 <nuxt-link
@@ -98,8 +112,8 @@
                     query: {
                       page: item,
                       tag: $route.query.tag,
-                      tab: tab,
-                    },
+                      tab: tab
+                    }
                   }"
                   >{{ item }}</nuxt-link
                 >
@@ -119,8 +133,8 @@
                   name: 'home',
                   query: {
                     tab: 'tag',
-                    tag: item,
-                  },
+                    tag: item
+                  }
                 }"
                 class="tag-pill tag-default"
                 v-for="item in tags"
@@ -135,40 +149,47 @@
   </div>
 </template>
 <script>
-import { getArticles, getYourFeedArticles, getTags, addFavorite, deleteFavorite } from '@/api/article'
-import { mapState } from 'vuex'
-import { toProfile } from '@/utils'
+import {
+  getArticles,
+  getYourFeedArticles,
+  getTags,
+  addFavorite,
+  deleteFavorite
+} from "@/api/article";
+import { mapState } from "vuex";
+import { toProfile } from "@/utils";
 export default {
-  name: 'HomeIndex',
+  name: "HomeIndex",
   //服务器渲染数据
   async asyncData({ query }) {
-    console.log('asycnData')
+    console.log("asycnData");
     //处理分页参数
-    const page = Number.parseInt(query.page || 1)
+    const page = Number.parseInt(query.page || 1);
     //每页文章数
-    const limit = 20
+    const limit = 20;
     //tab页
-    const tab = query.tab || 'global_feed'
+    const tab = query.tab || "global_feed";
     //标签
-    const { tag } = query
+    const { tag } = query;
     //判断是公共列表还是关注列表来渲染不同的数据
-    const loadArticles = tab === 'global_feed' ? getArticles : getYourFeedArticles
+    const loadArticles =
+      tab === "global_feed" ? getArticles : getYourFeedArticles;
     const [articleRes, tagRes] = await Promise.all([
       //调用文章列表接口
       loadArticles({
         limit,
         offset: (page - 1) * limit,
-        tag,
+        tag
       }),
       //调用标签列表接口
-      getTags(),
-    ])
+      getTags()
+    ]);
     //获取列表返回数据
-    const { articles, articlesCount } = articleRes.data
+    const { articles, articlesCount } = articleRes.data;
     //获取标签接口返回数据
-    const { tags } = tagRes.data
+    const { tags } = tagRes.data;
 
-    articles.forEach((item) => (item.favoriteDisabled = false))
+    articles.forEach(item => (item.favoriteDisabled = false));
     //返回数据
     return {
       articles, //文章列表
@@ -177,52 +198,52 @@ export default {
       limit, //每页大小
       page, // 页码
       tab, // 选项卡
-      tag, //数据标签
-    }
+      tag //数据标签
+    };
   },
   computed: {
     //用户信息
-    ...mapState(['user']),
+    ...mapState(["user"]),
 
     //分页列表
     totalPage() {
       //向上取整
-      return Math.ceil(this.articlesCount / this.limit)
-    },
+      return Math.ceil(this.articlesCount / this.limit);
+    }
   },
   data() {
     return {
-      toProfile,
-    }
+      toProfile
+    };
   },
   //监听参数,刷新页面
-  watchQuery: ['page', 'tag', 'tab'],
+  watchQuery: ["page", "tag", "tab"],
   methods: {
     changeTab(tab) {
       //切换列表
       this.$router.push({
-        name: 'home',
-        query: { tab },
-      })
+        name: "home",
+        query: { tab }
+      });
     },
 
     //文章点赞
     async onFavorite(item) {
-      item.favoriteDisabled = true
+      item.favoriteDisabled = true;
       if (item.favorited) {
         //取消点赞
-        await deleteFavorite(item.slug)
-        article.favorited = false
-        article.favoritesCount += -1
+        await deleteFavorite(item.slug);
+        article.favorited = false;
+        article.favoritesCount += -1;
       } else {
         // 添加点赞
-        await addFavorite(item.slug)
-        article.favorited = true
-        article.favoritesCount += 1
+        await addFavorite(item.slug);
+        article.favorited = true;
+        article.favoritesCount += 1;
       }
-      item.favoriteDisabled = false
-    },
-  },
-}
+      item.favoriteDisabled = false;
+    }
+  }
+};
 </script>
 <style scoped></style>

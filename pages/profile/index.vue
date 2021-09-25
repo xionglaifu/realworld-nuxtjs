@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-24 11:03:05
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 20:38:43
+ * @LastEditTime: 2021-09-25 22:03:30
  * @company: formssi
 -->
 <template>
@@ -15,7 +15,8 @@
             <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
             <h4>Eric Simons</h4>
             <p>
-              Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games
+              Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda
+              looks like Peeta from the Hunger Games
             </p>
             <button class="btn btn-sm btn-outline-secondary action-btn">
               <i class="ion-plus-round"></i>
@@ -47,7 +48,9 @@
                 <a href="" class="author">Eric Simons</a>
                 <span class="date">January 20th</span>
               </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right"><i class="ion-heart"></i> 29</button>
+              <button class="btn btn-outline-primary btn-sm pull-xs-right">
+                <i class="ion-heart"></i> 29
+              </button>
             </div>
             <a href="" class="preview-link">
               <h1>How to build webapps that scale</h1>
@@ -63,10 +66,15 @@
                 <a href="" class="author">Albert Pai</a>
                 <span class="date">January 20th</span>
               </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right"><i class="ion-heart"></i> 32</button>
+              <button class="btn btn-outline-primary btn-sm pull-xs-right">
+                <i class="ion-heart"></i> 32
+              </button>
             </div>
             <a href="" class="preview-link">
-              <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
+              <h1>
+                The song you won't ever stop singing. No matter how hard you
+                try.
+              </h1>
               <p>This is the description for the post.</p>
               <span>Read more...</span>
               <ul class="tag-list">
@@ -83,13 +91,13 @@
 <script>
 export default {
   //在路由匹配组件渲染之前会先执行中间件处理
-  middleware: ['authenticated'],
-  name: 'ProfileIndex',
+  middleware: ["authenticated"],
+  name: "ProfileIndex",
   components: {},
   data() {
-    return {}
+    return {};
   },
-  methods: {},
-}
+  methods: {}
+};
 </script>
 <style scoped></style>

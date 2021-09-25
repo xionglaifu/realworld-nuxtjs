@@ -1,9 +1,9 @@
 /*
  * @Description:
  * @Author: xionglaifu
- * @Date: 2021-09-25 20:05:44
+ * @Date: 2021-09-25 22:11:52
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 21:19:02
+ * @LastEditTime: 2021-09-25 22:20:12
  * @company: formssi
  */
 /**
@@ -68,7 +68,7 @@ module.exports = {
 
   server: {
     host: '0.0.0.0',
-    port: 9527,
+    port: 3000,
   },
 
   // 注册插件

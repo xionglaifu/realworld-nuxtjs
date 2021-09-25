@@ -1,20 +1,18 @@
 /*
- * @Description: 公共js方法
+ * @Description:
  * @Author: xionglaifu
- * @Date: 2021-09-25 20:32:57
+ * @Date: 2021-09-25 21:58:47
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 20:34:11
+ * @LastEditTime: 2021-09-25 22:00:07
  * @company: formssi
  */
 
-import Vue from 'vue'
-
-//跳转到个人信息页面
-export const toProfile = (username) => {
+import Vue from "vue";
+export const toProfile = username => {
   Vue.Router.push({
-    name: 'profile',
+    name: "profile",
     params: {
-      username,
-    },
-  })
-}
+      username
+    }
+  });
+};
