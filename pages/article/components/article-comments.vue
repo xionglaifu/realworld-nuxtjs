@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: xionglaifu
+ * @Date: 2021-09-25 20:21:07
+ * @LastEditors: xionglaifu
+ * @LastEditTime: 2021-09-25 20:38:22
+ * @company: formssi
+-->
 <template>
   <div>
     <form class="card comment-form">
@@ -7,37 +15,23 @@
       <div class="card-footer">
         <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
         <button class="btn btn-sm btn-primary">
-        Post Comment
+          Post Comment
         </button>
       </div>
     </form>
 
-    <div
-      class="card"
-      v-for="comment in comments"
-      :key="comment.id"
-    >
+    <div class="card" v-for="comment in comments" :key="comment.id">
       <div class="card-block">
         <p class="card-text">{{ comment.body }}</p>
       </div>
       <div class="card-footer">
-        <nuxt-link class="comment-author" :to="{
-          name: 'profile',
-          params: {
-            username: comment.author.username
-          }
-        }">
+        <div class="comment-author" @click="toProfile(comment.author.username)">
           <img :src="comment.author.image" class="comment-author-img" />
-        </nuxt-link>
+        </div>
         &nbsp;
-        <nuxt-link class="comment-author" :to="{
-          name: 'profile',
-          params: {
-            username: comment.author.username
-          }
-        }">
+        <div @click="toProfile(comment.author.username)">
           {{ comment.author.username }}
-        </nuxt-link>
+        </div>
         <span class="date-posted">{{ comment.createdAt | date('MMM DD, YYYY') }}</span>
       </div>
     </div>
@@ -46,27 +40,37 @@
 
 <script>
 import { getComments } from '@/api/article'
-
+import { toProfile } from '@/utils'
 export default {
   name: 'ArticleComments',
   props: {
     article: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      comments: [] // 文章列表
+      comments: [], // 文章列表
+      toProfile,
     }
   },
-  async mounted () {
+  methods: {
+    //跳转到个人信息页面
+    toProfile(username) {
+      this.$Router.push({
+        name: 'profile',
+        params: {
+          username,
+        },
+      })
+    },
+  },
+  async mounted() {
     const { data } = await getComments(this.article.slug)
     this.comments = data.comments
-  }
+  },
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

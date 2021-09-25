@@ -1,99 +1,68 @@
+<!--
+ * @Description: home
+ * @Author: xionglaifu
+ * @Date: 2021-09-24 10:42:16
+ * @LastEditors: xionglaifu
+ * @LastEditTime: 2021-09-25 21:10:51
+ * @company: formssi
+-->
 <template>
   <div class="home-page">
-
     <div class="banner">
       <div class="container">
-        <h1 class="logo-font">拉勾教育</h1>
-        <p>A place to share your knowledge.</p>
+        <h1 class="logo-font">拉钩教育</h1>
+        <p>A place to improve your ability.</p>
       </div>
     </div>
 
     <div class="container page">
       <div class="row">
-
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
               <li v-if="user" class="nav-item">
-                <nuxt-link
-                  class="nav-link"
-                  :class="{
-                    active: tab === 'your_feed'
-                  }"
-                  exact
-                  :to="{
-                    name: 'home',
-                    query: {
-                      tab: 'your_feed'
-                    }
-                  }"
-                >Your Feed</nuxt-link>
+                <div @click="changeTab('your_feed')" class="nav-link" :class="{ active: tab === 'your_feed' }" exact>
+                  关注文章
+                </div>
               </li>
               <li class="nav-item">
-                <nuxt-link
+                <div
+                  @click="changeTab('global_feed')"
                   class="nav-link"
-                  :class="{
-                    active: tab === 'global_feed'
-                  }"
+                  :class="{ active: tab === 'global_feed' }"
                   exact
-                  :to="{
-                    name: 'home'
-                  }"
-                >Global Feed</nuxt-link>
+                >
+                  公共文章
+                </div>
               </li>
               <li v-if="tag" class="nav-item">
-                <nuxt-link
-                  class="nav-link"
-                  :class="{
-                    active: tab === 'tag'
-                  }"
-                  exact
-                  :to="{
-                    name: 'home',
-                    query: {
-                      tab: 'tag',
-                      tag: tag
-                    }
-                  }"
-                ># {{ tag }}</nuxt-link>
+                <div @click="changeTab(tag)" class="nav-link" :class="{ active: tab === 'tag' }" exact>
+                  {{ tag }}
+                </div>
               </li>
             </ul>
           </div>
 
-          <div
-            class="article-preview"
-            v-for="article in articles"
-            :key="article.slug"
-          >
+          <div class="article-preview" v-for="item in articles" :key="item.slug">
             <div class="article-meta">
-              <nuxt-link :to="{
-                name: 'profile',
-                params: {
-                  username: article.author.username
-                }
-              }">
-                <img :src="article.author.image" />
-              </nuxt-link>
+              <template @click="toProfile(item.author.username)">
+                <img :src="item.author.image" />
+              </template>
               <div class="info">
-                <nuxt-link class="author" :to="{
-                  name: 'profile',
-                  params: {
-                    username: article.author.username
-                  }
-                }">
-                  {{ article.author.username }}
-                </nuxt-link>
-                <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
+                <div @click="toProfile(item.author.username)">
+                  <span>{{ item.author.username }}</span>
+                  <span class="date">{{ item.createdAt }}</span>
+                </div>
               </div>
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{
-                  active: article.favorited
+                  active: item.favorited,
                 }"
-                @click="onFavorite(article)"
-                :disabled="article.favoriteDisabled"
+                @click="onFavorite(item)"
+                :disabled="item.favoriteDisabled"
               >
-                <i class="ion-heart"></i> {{ article.favoritesCount }}
+                <i class="ion-heart"></i>{{ item.favoritesCount }}
               </button>
             </div>
             <nuxt-link
@@ -101,13 +70,13 @@
               :to="{
                 name: 'article',
                 params: {
-                  slug: article.slug
-                }
+                  slug: item.slug,
+                },
               }"
             >
-              <h1>{{ article.title }}</h1>
-              <p>{{ article.description }}</p>
-              <span>Read more...</span>
+              <h1>{{ item.title }}</h1>
+              <h1>{{ item.description }}</h1>
+              <span>查看更多....</span>
             </nuxt-link>
           </div>
 
@@ -116,11 +85,11 @@
             <ul class="pagination">
               <li
                 class="page-item"
-                :class="{
-                  active: item === page
-                }"
                 v-for="item in totalPage"
                 :key="item"
+                :class="{
+                  active: item === page,
+                }"
               >
                 <nuxt-link
                   class="page-link"
@@ -129,20 +98,20 @@
                     query: {
                       page: item,
                       tag: $route.query.tag,
-                      tab: tab
-                    }
+                      tab: tab,
+                    },
                   }"
-                >{{ item }}</nuxt-link>
+                  >{{ item }}</nuxt-link
+                >
               </li>
             </ul>
           </nav>
           <!-- /分页列表 -->
-
         </div>
-
+        <!-- 标签 -->
         <div class="col-md-3">
           <div class="sidebar">
-            <p>Popular Tags</p>
+            <p>流行标签</p>
 
             <div class="tag-list">
               <nuxt-link
@@ -150,97 +119,110 @@
                   name: 'home',
                   query: {
                     tab: 'tag',
-                    tag: item
-                  }
+                    tag: item,
+                  },
                 }"
                 class="tag-pill tag-default"
                 v-for="item in tags"
                 :key="item"
-              >{{ item }}</nuxt-link>
+                >{{ item }}</nuxt-link
+              >
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
   </div>
 </template>
-
 <script>
-import {
-  getArticles,
-  getYourFeedArticles,
-  addFavorite,
-  deleteFavorite
-} from '@/api/article'
-import { getTags } from '@/api/tag'
+import { getArticles, getYourFeedArticles, getTags, addFavorite, deleteFavorite } from '@/api/article'
 import { mapState } from 'vuex'
-
+import { toProfile } from '@/utils'
 export default {
   name: 'HomeIndex',
-  async asyncData ({ query }) {
-    const page = Number.parseInt(query.page|| 1)
+  //服务器渲染数据
+  async asyncData({ query }) {
+    console.log('asycnData')
+    //处理分页参数
+    const page = Number.parseInt(query.page || 1)
+    //每页文章数
     const limit = 20
+    //tab页
     const tab = query.tab || 'global_feed'
-    const tag = query.tag
-
-    const loadArticles = tab === 'global_feed'
-      ? getArticles
-      : getYourFeedArticles
-
-    const [ articleRes, tagRes ] = await Promise.all([
+    //标签
+    const { tag } = query
+    //判断是公共列表还是关注列表来渲染不同的数据
+    const loadArticles = tab === 'global_feed' ? getArticles : getYourFeedArticles
+    const [articleRes, tagRes] = await Promise.all([
+      //调用文章列表接口
       loadArticles({
         limit,
         offset: (page - 1) * limit,
-        tag
+        tag,
       }),
-      getTags()
+      //调用标签列表接口
+      getTags(),
     ])
-
+    //获取列表返回数据
     const { articles, articlesCount } = articleRes.data
+    //获取标签接口返回数据
     const { tags } = tagRes.data
 
-    articles.forEach(article => article.favoriteDisabled = false)
-
+    articles.forEach((item) => (item.favoriteDisabled = false))
+    //返回数据
     return {
-      articles, // 文章列表
-      articlesCount, // 文章总数
-      tags, // 标签列表
-      limit, // 每页大小
+      articles, //文章列表
+      articlesCount, //文章总数
+      tags, //标签列表
+      limit, //每页大小
       page, // 页码
       tab, // 选项卡
-      tag // 数据标签
+      tag, //数据标签
     }
   },
-  watchQuery: ['page', 'tag', 'tab'],
   computed: {
+    //用户信息
     ...mapState(['user']),
-    totalPage () {
+
+    //分页列表
+    totalPage() {
+      //向上取整
       return Math.ceil(this.articlesCount / this.limit)
+    },
+  },
+  data() {
+    return {
+      toProfile,
     }
   },
-
+  //监听参数,刷新页面
+  watchQuery: ['page', 'tag', 'tab'],
   methods: {
-    async onFavorite (article) {
-      article.favoriteDisabled = true
-      if (article.favorited) {
-        // 取消点赞
-        await deleteFavorite(article.slug)
+    changeTab(tab) {
+      //切换列表
+      this.$router.push({
+        name: 'home',
+        query: { tab },
+      })
+    },
+
+    //文章点赞
+    async onFavorite(item) {
+      item.favoriteDisabled = true
+      if (item.favorited) {
+        //取消点赞
+        await deleteFavorite(item.slug)
         article.favorited = false
         article.favoritesCount += -1
       } else {
         // 添加点赞
-        await addFavorite(article.slug)
+        await addFavorite(item.slug)
         article.favorited = true
         article.favoritesCount += 1
       }
-      article.favoriteDisabled = false
-    }
-  }
+      item.favoriteDisabled = false
+    },
+  },
 }
 </script>
-
-<style>
-
-</style>
+<style scoped></style>
