@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-25 20:21:07
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 11:33:37
+ * @LastEditTime: 2021-09-26 13:40:06
  * @company: formssi
 -->
 <template>
@@ -95,8 +95,9 @@ export default {
     },
     //进入修改文章页
     updateArticle(slug) {
+      console.log(slug)
       this.$router.push({
-        name: 'editor',
+        name: 'update',
         params: {
           slug
         }

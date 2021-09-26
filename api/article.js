@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-06-23 14:04:32
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 10:33:10
+ * @LastEditTime: 2021-09-26 15:22:52
  * @company: formssi
  */
 import { request } from '@/plugins/request'
@@ -17,14 +17,12 @@ export const getArticles = params => {
   })
 }
 
-// 获取公共文章列表
 export const getYourFeedArticles = params => {
   return request({
     method: 'GET',
     url: '/api/articles/feed',
     params
     // headers: {
-    //   // 添加用户身份，数据格式：Token空格Token数据
     //   Authorization: `Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDgxMTYsInVzZXJuYW1lIjoibHB6OTk5IiwiZXhwIjoxNTk3NzQxNTA4fQ.2yO8Fss4hYnvsIN2UYHsutQ1hmYqSSAA-UrIRnP4DOY`
     // }
   })
@@ -80,7 +78,7 @@ export const createArticle = data => {
 }
 
 //修改文章
-export const updateArticles = slug => {
+export const updateArticle = (slug, data) => {
   return request({
     method: 'put',
     url: `/api/articles/${slug}`,

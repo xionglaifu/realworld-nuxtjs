@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-24 10:42:16
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 11:07:08
+ * @LastEditTime: 2021-09-26 15:10:52
  * @company: formssi
 -->
 <template>
@@ -51,7 +51,7 @@
               <div class="info">
                 <div @click="toProfile(item.author.username)">
                   <span>{{ item.author.username }}</span>
-                  <span class="date">{{ item.createdAt }}</span>
+                  <span class="date">{{ item.createdAt | date('MMM DD, YYYY') }}</span>
                 </div>
               </div>
               <button

@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-25 22:11:52
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 22:20:12
+ * @LastEditTime: 2021-09-26 13:39:37
  * @company: formssi
  */
 /**
@@ -27,50 +27,55 @@ module.exports = {
               {
                 path: '', // 默认子路由
                 name: 'home',
-                component: resolve(__dirname, 'pages/home/'),
+                component: resolve(__dirname, 'pages/home/')
               },
               {
                 path: '/login',
                 name: 'login',
-                component: resolve(__dirname, 'pages/login/'),
+                component: resolve(__dirname, 'pages/login/')
               },
               {
                 path: '/register',
                 name: 'register',
-                component: resolve(__dirname, 'pages/login/'),
+                component: resolve(__dirname, 'pages/login/')
               },
               {
                 path: '/profile/:username',
                 name: 'profile',
-                component: resolve(__dirname, 'pages/profile/'),
+                component: resolve(__dirname, 'pages/profile/')
               },
               {
                 path: '/setting',
                 name: 'setting',
-                component: resolve(__dirname, 'pages/setting/'),
+                component: resolve(__dirname, 'pages/setting/')
+              },
+              {
+                path: '/editor/:slug',
+                name: 'update',
+                component: resolve(__dirname, 'pages/editor/')
               },
               {
                 path: '/editor',
                 name: 'editor',
-                component: resolve(__dirname, 'pages/editor/'),
+                component: resolve(__dirname, 'pages/editor/')
               },
               {
                 path: '/article/:slug',
                 name: 'article',
-                component: resolve(__dirname, 'pages/article/'),
-              },
-            ],
-          },
+                component: resolve(__dirname, 'pages/article/')
+              }
+            ]
+          }
         ]
       )
-    },
+    }
   },
 
   server: {
     host: '0.0.0.0',
-    port: 3000,
+    port: 3000
   },
 
   // 注册插件
-  plugins: ['~/plugins/request.js', '~/plugins/dayjs.js'],
+  plugins: ['~/plugins/request.js', '~/plugins/dayjs.js']
 }

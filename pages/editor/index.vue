@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-26 09:15:50
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 11:37:27
+ * @LastEditTime: 2021-09-26 14:23:45
  * @company: formssi
 -->
 <template>
@@ -40,8 +40,8 @@
               <fieldset class="form-group">
                 <input v-model="tag" type="text" class="form-control" placeholder="Enter tags" @keyup.enter="addTag" />
                 <div class="tag-list">
-                  <span v-for="tag in article.tagList" :key="tag" class="article-tag">
-                    <span class="icon-delete" @click="deleteTag(tag)">X</span>
+                  <span v-for="tag in article.tagList" :key="tag" class="tag-default tag-pill ng-binding ng-scope">
+                    <span class="ion-close-round" @click="deleteTag(tag)">X</span>
                     {{ tag }}</span
                   >
                 </div>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { createArticle } from '@/api/article'
+import { createArticle, getArticle, updateArticle } from '@/api/article'
 export default {
   // 在路由匹配组件渲染之前会先执行中间件处理
   middleware: 'authenticated',
@@ -114,11 +114,18 @@ export default {
           slug
         }
       })
+    },
+    //修改文章
+    async updateArticle() {
+      const { article } = this
+      const { data } = await updateArticle(article.slug, article)
+      this.toArticle(data.article.slug)
     }
   },
+
   async created() {
-    const { slug } = this.$router.params
-    if (slug) {
+    const { params } = this.$route
+    if (params && params.slug) {
       this.isEdit = true
       const res = await getArticle(params.slug)
       const { article } = res.data

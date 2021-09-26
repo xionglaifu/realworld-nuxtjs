@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-24 10:16:42
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 22:07:02
+ * @LastEditTime: 2021-09-26 14:20:16
  * @company: formssi
 -->
 <template>
@@ -24,22 +24,18 @@
           <template v-if="user">
             <li class="nav-item">
               <!-- 创建文章 -->
-              <nuxt-link class="nav-link" to="/editor">
-                <i class="ion-compose"></i>&nbsp;发布文章
-              </nuxt-link>
+              <nuxt-link class="nav-link" to="/editor"> <i class="ion-compose"></i>&nbsp;发布文章 </nuxt-link>
             </li>
             <li class="nav-item">
               <!-- 跳转到设置 -->
-              <nuxt-link class="nav-link" to="/settings">
-                <i class="ion-gear-a"></i>&nbsp;设置
-              </nuxt-link>
+              <nuxt-link class="nav-link" to="/setting"> <i class="ion-gear-a"></i>&nbsp;设置 </nuxt-link>
             </li>
             <li class="nav-item">
               <!-- 个人中心 -->
-              <nuxt-link class="nav-link" to="/profile/123">
+              <div class="nav-link" @click="toProfile(user.username)">
                 <img class="user-pic" :src="user.image" />
                 {{ user.username }}
-              </nuxt-link>
+              </div>
             </li>
           </template>
 
@@ -71,8 +67,7 @@
         <a href="/" class="logo-font">conduit</a>
         <span class="attribution">
           An interactive learning project from
-          <a href="https://thinkster.io">Thinkster</a>. Code &amp; design
-          licensed under MIT.
+          <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
         </span>
       </div>
     </footer>
@@ -80,17 +75,27 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "LayoutIndex",
+  name: 'LayoutIndex',
   components: {},
   data() {
-    return {};
+    return {}
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(['user'])
   },
-  methods: {}
-};
+  methods: {
+    //跳转到个人信息页面
+    toProfile(username) {
+      this.$router.push({
+        name: 'profile',
+        params: {
+          username
+        }
+      })
+    }
+  }
+}
 </script>
 <style scoped></style>
