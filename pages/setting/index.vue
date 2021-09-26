@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-06-23 14:04:32
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 15:48:19
+ * @LastEditTime: 2021-09-26 15:52:19
  * @company: formssi
 -->
 <template>
@@ -86,8 +86,8 @@ export default {
     //退出登录
     loginOut() {
       this.$store.commit('setUser', null)
-      Cookie.set('user', data.user)
-      this.$router.push({ name: 'login' })
+      Cookie.set('user', null)
+      this.$router.push('/')
     }
   },
 
