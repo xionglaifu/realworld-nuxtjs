@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-24 10:16:42
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 14:20:16
+ * @LastEditTime: 2021-09-26 16:35:19
  * @company: formssi
 -->
 <template>
@@ -64,10 +64,10 @@
     <!-- 底部 -->
     <footer>
       <div class="container">
-        <a href="/" class="logo-font">conduit</a>
+        <a href="/" class="logo-font">拉钩教育</a>
         <span class="attribution">
           An interactive learning project from
-          <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
+          <a href="https://kaiwu.lagou.com/">Thinkster</a>. Code &amp; design licensed under MIT.
         </span>
       </div>
     </footer>
