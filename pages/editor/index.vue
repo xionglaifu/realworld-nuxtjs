@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-26 09:15:50
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 14:23:45
+ * @LastEditTime: 2021-09-26 17:13:12
  * @company: formssi
 -->
 <template>
@@ -41,7 +41,7 @@
                 <input v-model="tag" type="text" class="form-control" placeholder="Enter tags" @keyup.enter="addTag" />
                 <div class="tag-list">
                   <span v-for="tag in article.tagList" :key="tag" class="tag-default tag-pill ng-binding ng-scope">
-                    <span class="ion-close-round" @click="deleteTag(tag)">X</span>
+                    <span class="ion-close-round" @click="deleteTag(tag)"></span>
                     {{ tag }}</span
                   >
                 </div>
