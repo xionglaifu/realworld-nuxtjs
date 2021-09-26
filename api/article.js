@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-06-23 14:04:32
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 09:31:32
+ * @LastEditTime: 2021-09-26 10:33:10
  * @company: formssi
  */
 import { request } from '@/plugins/request'
@@ -71,7 +71,7 @@ export const getTags = () => {
 }
 
 //发表文章
-export const createArticles = data => {
+export const createArticle = data => {
   return request({
     method: 'post',
     url: '/api/articles',

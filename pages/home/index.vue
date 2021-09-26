@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-24 10:42:16
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 22:00:38
+ * @LastEditTime: 2021-09-26 11:07:08
  * @company: formssi
 -->
 <template>
@@ -21,12 +21,7 @@
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
               <li v-if="user" class="nav-item">
-                <div
-                  @click="changeTab('your_feed')"
-                  class="nav-link"
-                  :class="{ active: tab === 'your_feed' }"
-                  exact
-                >
+                <div @click="changeTab('your_feed')" class="nav-link" :class="{ active: tab === 'your_feed' }" exact>
                   关注文章
                 </div>
               </li>
@@ -41,23 +36,14 @@
                 </div>
               </li>
               <li v-if="tag" class="nav-item">
-                <div
-                  @click="changeTab(tag)"
-                  class="nav-link"
-                  :class="{ active: tab === 'tag' }"
-                  exact
-                >
+                <div @click="changeTab(tag)" class="nav-link" :class="{ active: tab === 'tag' }" exact>
                   {{ tag }}
                 </div>
               </li>
             </ul>
           </div>
 
-          <div
-            class="article-preview"
-            v-for="item in articles"
-            :key="item.slug"
-          >
+          <div class="article-preview" v-for="item in articles" :key="item.slug">
             <div class="article-meta">
               <template @click="toProfile(item.author.username)">
                 <img :src="item.author.image" />
@@ -79,19 +65,11 @@
                 <i class="ion-heart"></i>{{ item.favoritesCount }}
               </button>
             </div>
-            <nuxt-link
-              class="preview-link"
-              :to="{
-                name: 'article',
-                params: {
-                  slug: item.slug
-                }
-              }"
-            >
+            <div class="preview-link" @click="toArticle(item.slug)">
               <h1>{{ item.title }}</h1>
               <h1>{{ item.description }}</h1>
               <span>查看更多....</span>
-            </nuxt-link>
+            </div>
           </div>
 
           <!-- 分页列表 -->
@@ -149,31 +127,23 @@
   </div>
 </template>
 <script>
-import {
-  getArticles,
-  getYourFeedArticles,
-  getTags,
-  addFavorite,
-  deleteFavorite
-} from "@/api/article";
-import { mapState } from "vuex";
-import { toProfile } from "@/utils";
+import { getArticles, getYourFeedArticles, getTags, addFavorite, deleteFavorite } from '@/api/article'
+import { mapState } from 'vuex'
 export default {
-  name: "HomeIndex",
+  name: 'HomeIndex',
   //服务器渲染数据
   async asyncData({ query }) {
-    console.log("asycnData");
+    console.log('asycnData')
     //处理分页参数
-    const page = Number.parseInt(query.page || 1);
+    const page = Number.parseInt(query.page || 1)
     //每页文章数
-    const limit = 20;
+    const limit = 20
     //tab页
-    const tab = query.tab || "global_feed";
+    const tab = query.tab || 'global_feed'
     //标签
-    const { tag } = query;
+    const { tag } = query
     //判断是公共列表还是关注列表来渲染不同的数据
-    const loadArticles =
-      tab === "global_feed" ? getArticles : getYourFeedArticles;
+    const loadArticles = tab === 'global_feed' ? getArticles : getYourFeedArticles
     const [articleRes, tagRes] = await Promise.all([
       //调用文章列表接口
       loadArticles({
@@ -183,13 +153,13 @@ export default {
       }),
       //调用标签列表接口
       getTags()
-    ]);
+    ])
     //获取列表返回数据
-    const { articles, articlesCount } = articleRes.data;
+    const { articles, articlesCount } = articleRes.data
     //获取标签接口返回数据
-    const { tags } = tagRes.data;
+    const { tags } = tagRes.data
 
-    articles.forEach(item => (item.favoriteDisabled = false));
+    articles.forEach(item => (item.favoriteDisabled = false))
     //返回数据
     return {
       articles, //文章列表
@@ -199,51 +169,71 @@ export default {
       page, // 页码
       tab, // 选项卡
       tag //数据标签
-    };
+    }
   },
   computed: {
     //用户信息
-    ...mapState(["user"]),
+    ...mapState(['user']),
 
     //分页列表
     totalPage() {
       //向上取整
-      return Math.ceil(this.articlesCount / this.limit);
+      return Math.ceil(this.articlesCount / this.limit)
     }
   },
   data() {
     return {
-      toProfile
-    };
+      // toProfile
+    }
   },
   //监听参数,刷新页面
-  watchQuery: ["page", "tag", "tab"],
+  watchQuery: ['page', 'tag', 'tab'],
   methods: {
     changeTab(tab) {
       //切换列表
       this.$router.push({
-        name: "home",
+        name: 'home',
         query: { tab }
-      });
+      })
     },
 
     //文章点赞
     async onFavorite(item) {
-      item.favoriteDisabled = true;
+      item.favoriteDisabled = true
       if (item.favorited) {
         //取消点赞
-        await deleteFavorite(item.slug);
-        article.favorited = false;
-        article.favoritesCount += -1;
+        await deleteFavorite(item.slug)
+        article.favorited = false
+        article.favoritesCount += -1
       } else {
         // 添加点赞
-        await addFavorite(item.slug);
-        article.favorited = true;
-        article.favoritesCount += 1;
+        await addFavorite(item.slug)
+        article.favorited = true
+        article.favoritesCount += 1
       }
-      item.favoriteDisabled = false;
+      item.favoriteDisabled = false
+    },
+
+    // 跳转到文章详情页
+    toArticle(slug) {
+      this.$router.push({
+        name: 'article',
+        params: {
+          slug
+        }
+      })
+    },
+
+    //跳转到个人信息页面
+    toProfile(username) {
+      this.$router.push({
+        name: 'profile',
+        params: {
+          username
+        }
+      })
     }
   }
-};
+}
 </script>
 <style scoped></style>

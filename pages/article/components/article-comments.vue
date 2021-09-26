@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-25 20:21:07
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 20:38:22
+ * @LastEditTime: 2021-09-26 10:46:07
  * @company: formssi
 -->
 <template>
@@ -40,19 +40,17 @@
 
 <script>
 import { getComments } from '@/api/article'
-import { toProfile } from '@/utils'
 export default {
   name: 'ArticleComments',
   props: {
     article: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      comments: [], // 文章列表
-      toProfile,
+      comments: [] // 文章列表
     }
   },
   methods: {
@@ -61,15 +59,15 @@ export default {
       this.$Router.push({
         name: 'profile',
         params: {
-          username,
-        },
+          username
+        }
       })
-    },
+    }
   },
   async mounted() {
     const { data } = await getComments(this.article.slug)
     this.comments = data.comments
-  },
+  }
 }
 </script>
 

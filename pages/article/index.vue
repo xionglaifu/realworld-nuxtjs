@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-25 20:07:10
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 20:46:16
+ * @LastEditTime: 2021-09-26 11:03:25
  * @company: formssi
 -->
 <template>
@@ -51,12 +51,12 @@ export default {
     const md = new MarkdownIt()
     article.body = md.render(article.body)
     return {
-      article,
+      article
     }
   },
   components: {
     ArticleMeta,
-    ArticleComments,
+    ArticleComments
   },
   data() {
     return {}
@@ -66,9 +66,9 @@ export default {
     // 设置页面的meta
     return {
       title: `${this.article.title} - RealWorld`,
-      meta: [{ hid: 'description', name: 'description', content: this.article.description }],
+      meta: [{ hid: 'description', name: 'description', content: this.article.description }]
     }
-  },
+  }
 }
 </script>
 <style scoped></style>

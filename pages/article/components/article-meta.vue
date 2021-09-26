@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-25 20:21:07
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-25 20:38:18
+ * @LastEditTime: 2021-09-26 11:33:37
  * @company: formssi
 -->
 <template>
@@ -21,40 +21,88 @@
     <button
       class="btn btn-sm btn-outline-secondary"
       :class="{
-        active: article.author.following,
+        active: article.author.following
       }"
+      v-if="!isAuthor"
     >
       <i class="ion-plus-round"></i>
       &nbsp; Follow Eric Simons <span class="counter">(10)</span>
+    </button>
+    <button
+      class="btn btn-sm btn-outline-secondary"
+      :class="{
+        active: article.author.following
+      }"
+      v-if="isAuthor"
+      @click="updateArticle(article.slug)"
+    >
+      <i class="ion-edit"></i>
+      &nbsp; Edit Article <span class="counter"></span>
     </button>
     &nbsp;&nbsp;
     <button
       class="btn btn-sm btn-outline-primary"
       :class="{
-        active: article.favorited,
+        active: article.favorited
       }"
+      v-if="!isAuthor"
     >
       <i class="ion-heart"></i>
-      &nbsp; Favorite Post <span class="counter">(29)</span>
+      &nbsp; Favorite Post <span class="counter"></span>
+    </button>
+    <button
+      class="btn btn-sm btn-outline-primary"
+      :class="{
+        active: article.favorited
+      }"
+      v-if="isAuthor"
+    >
+      <i class="ion-trash-a"></i>
+      &nbsp; Delete Article <span class="counter"></span>
     </button>
   </div>
 </template>
 
 <script>
-import { toProfile } from '@/utils'
+import { mapState } from 'vuex'
 export default {
   name: 'ArticleMeta',
   props: {
     article: {
       type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      toProfile,
+      required: true
     }
   },
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapState(['user']),
+
+    isAuthor() {
+      return this.user.username === this.article.author.username
+    }
+  },
+  methods: {
+    //跳转到个人信息页面
+    toProfile(username) {
+      this.$router.push({
+        name: 'profile',
+        params: {
+          username
+        }
+      })
+    },
+    //进入修改文章页
+    updateArticle(slug) {
+      this.$router.push({
+        name: 'editor',
+        params: {
+          slug
+        }
+      })
+    }
+  }
 }
 </script>
 
