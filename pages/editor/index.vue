@@ -3,7 +3,7 @@
  * @Author: xionglaifu
  * @Date: 2021-09-26 09:15:50
  * @LastEditors: xionglaifu
- * @LastEditTime: 2021-09-26 11:29:00
+ * @LastEditTime: 2021-09-26 11:37:27
  * @company: formssi
 -->
 <template>
@@ -116,10 +116,14 @@ export default {
       })
     }
   },
-  created() {
+  async created() {
     const { slug } = this.$router.params
     if (slug) {
       this.isEdit = true
+      const res = await getArticle(params.slug)
+      const { article } = res.data
+      this.article = article
+      console.log(article)
     }
   }
 }
